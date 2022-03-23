@@ -1,0 +1,41 @@
+def ext = rootProject.ext
+def androidConfig = ext.android
+def appId = ext.module_appId
+if (ext.isModule) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+    compileSdk androidConfig.compileSdkVersion
+    defaultConfig {
+        if (!ext.isModule) {
+            applicationId appId[project.getName()]
+        }
+
+        minSdk androidConfig.minSdkVersion
+        targetSdk androidConfig.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation ext.dependencies.coreKtx
+    implementation ext.dependencies.appcompat
+    implementation ext.dependencies.material
+    implementation ext.dependencies.constraintlayout
+}

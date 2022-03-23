@@ -1,0 +1,25 @@
+
+apply from: '../../base_gradle/base_module.gradle'
+def ext = rootProject.ext
+android {
+
+    defaultConfig {
+
+        versionCode ext.android.versionCode
+        versionName ext.android.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+
+
+
+}
