@@ -1,5 +1,5 @@
 
-apply from: '../../base_gradle/base_module.gradle'
+apply from: '../../base_gradle/bisiness_module.gradle'
 def ext = rootProject.ext
 android {
 
@@ -15,6 +15,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        main{
+            if (!isModule){
+                manifest.srcFile 'src/test/AndroidManifest.xml'
+            }
+
+        }
+
+    }
 
 }
 
@@ -22,4 +31,6 @@ dependencies {
 
 
 
+implementation project(path: ':module_public:base')
+    implementation project(path: ':module_public:network')
 }

@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "ComponentialFrame"
 include ':app'
 include ':module_bisiness:login'
+include ':module_public'
+include ':module_public:base'
+include ':module_public:network'

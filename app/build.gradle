@@ -37,4 +37,5 @@ dependencies {
     implementation ext.dependencies.appcompat
     implementation ext.dependencies.material
     implementation ext.dependencies.constraintlayout
+    implementation project(path: ':module_public:base')
 }
