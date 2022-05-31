@@ -7,7 +7,11 @@ import com.liningkang.base.BaseViewModelActivity
 import com.liningkang.login.databinding.ActivityMain3Binding
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity3 :BaseViewModelActivity<LoginViewModel,ActivityMain3Binding>() {
+class MainActivity3 : BaseViewModelActivity<LoginViewModel, ActivityMain3Binding>() {
+
+    companion object {
+        const val TAG = "MainActivity3"
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main3
@@ -15,8 +19,8 @@ class MainActivity3 :BaseViewModelActivity<LoginViewModel,ActivityMain3Binding>(
 
     override fun initView(savedInstanceState: Bundle?) {
         text.setOnClickListener {
-            startActivity(Intent(this,MainActivity2::class.java))
-           // finish()
+            Log.i(TAG, "initView: " + getForegroundActivity()?.javaClass?.simpleName)
+            // finish()
         }
     }
 

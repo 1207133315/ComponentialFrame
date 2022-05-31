@@ -12,7 +12,7 @@
         android:networkSecurityConfig="@xml/network_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ComponentialFrame">
+        android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".MainActivity3"
             android:exported="false" />
