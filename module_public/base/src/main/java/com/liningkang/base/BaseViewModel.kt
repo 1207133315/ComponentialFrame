@@ -82,7 +82,7 @@ open class BaseViewModel<R> : ViewModel(), LifecycleEventObserver {
         return observable.subscribeOn(Schedulers.io()) //将请求调度到子线程上
             .observeOn(AndroidSchedulers.mainThread()) //观察响应结果，把响应结果调度到主线程中处理
             .onErrorReturn { t ->
-                null
+              null
             }
             .subscribe(getConsumer(dataCall)
             ) { t -> dataCall.onFail(ApiException.handleException(t)) }

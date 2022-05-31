@@ -8,6 +8,7 @@ if (ext.isModule) {
 }
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 // kotlin接入ARouter
 kapt {
     arguments {

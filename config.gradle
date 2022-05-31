@@ -1,6 +1,6 @@
 ext {
 
-    // 如果只运行模块，请改为false；true则所有模块都参与打
+    // 如果只运行模块，请改为false；true则所有模块都参与打包
     isModule = false
     module_appId = [
             "login": "com.liningkang.login"
@@ -9,7 +9,7 @@ ext {
             applicationId    : "com.liningkang.componentialFrame",
             compileSdkVersion: 31,
             minSdkVersion    : 21,
-            targetSdkVersion : 31,
+            targetSdkVersion : 26,
             versionCode      : 1,
             versionName      : "1.0"
     ]

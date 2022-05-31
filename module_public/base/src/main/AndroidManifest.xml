@@ -8,6 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ComponentialFrame" />
+        android:theme="@style/Theme.ComponentialFrame">
+        <activity
+            android:name=".BaseCommonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+    </application>
 
 </manifest>

@@ -1,17 +1,42 @@
 package com.liningkang.login
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.liningkang.base.BaseActivity
+import android.util.Log
+import com.liningkang.base.BaseViewModelActivity
 import com.liningkang.login.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<LoginViewModel,ActivityMainBinding>() {
+class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>() {
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        Log.i("activity", "initView: MainActivity")
         viewModel?.request()
+        binding?.text?.setOnClickListener {
+            startActivity(Intent(this, MainActivity2::class.java))
+        }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i("activity", "onResume: MainActivity")
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.i("activity", "onNewIntent: MainActivity")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("activity", "onStop: MainActivity")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("activity", "onDestroy: MainActivity")
+    }
 }
