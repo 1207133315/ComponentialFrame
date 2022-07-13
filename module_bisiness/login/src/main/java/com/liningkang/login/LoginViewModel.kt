@@ -10,8 +10,7 @@ class LoginViewModel : BaseViewModel<LoginApi>() {
         var TAG: String = this.javaClass.simpleName
     }
 
-     fun request() {
-
+     fun requestWeather() {
         request(iRequest.loginByVerificationCode("邯郸"), object : DataCall<LoginData> {
             override fun onSuccess(data: LoginData) {
                 Log.i(TAG, "onSuccess: ${data.city}")

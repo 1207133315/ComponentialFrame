@@ -3,6 +3,7 @@ package com.liningkang.base
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -16,12 +17,15 @@ import java.lang.reflect.ParameterizedType
   */
 abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBinding> : BaseActivity() {
     var mLoadDialog // 加载框
-            : Dialog? = null
+    : Dialog? = null
 
 
-     var viewModel: VM? = null
-     var binding: VDB? = null
+    var viewModel: VM? = null
+    var binding: VDB? = null
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -42,5 +42,6 @@ dependencies {
     implementation ext.dependencies.constraintlayout
     implementation project(path: ':module_public:base')
     implementation project(path: ':module_public:network')
+    implementation project(path: ':module_public:common')
     implementation project(path: ':module_bisiness:login')
 }

@@ -1,7 +1,7 @@
 ext {
 
     // 如果只运行模块，请改为false；true则所有模块都参与打包
-    isModule = true
+    isModule = false
     module_appId = [
             "login": "com.liningkang.login"
     ]

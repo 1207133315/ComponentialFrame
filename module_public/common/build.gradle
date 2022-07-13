@@ -23,8 +23,5 @@ android {
 
 dependencies {
 
-    implementation project(path: ':module_public:network')
-    implementation project(path: ':module_public:common')
-    implementation project(path: ':module_public:utils')
-    implementation 'com.jaeger.statusbarutil:library:1.4.0'
+
 }
