@@ -27,7 +27,9 @@ ext {
             arouterApiSdk: "1.5.2",
             okHttpSdkVersion:'3.12.1',
             rxandroidSdkVersion:'2.1.0',
-            rxjavaSdkVersion:'2.1.0'
+            rxjavaSdkVersion:'2.1.0',
+            lottie:'2.7.0',
+            kotlin:'1.5.30'
 
     ]
     dependencies = [
@@ -43,6 +45,7 @@ ext {
             okhttp:"com.squareup.okhttp3:okhttp:${version.okHttpSdkVersion}",
             okhttpLogging:"com.squareup.okhttp3:logging-interceptor:${version.okHttpSdkVersion}",
             rxandroid:"io.reactivex.rxjava2:rxandroid:${version.rxandroidSdkVersion}",
-            rxjava:"io.reactivex.rxjava2:rxjava:${version.rxjavaSdkVersion}"
+            rxjava:"io.reactivex.rxjava2:rxjava:${version.rxjavaSdkVersion}",
+            lottie:"com.airbnb.android:lottie::${version.lottie}"
     ]
 }

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import com.alibaba.android.arouter.launcher.ARouter
+import com.tencent.mmkv.MMKV
 
 open class BaseApplication : Application() {
     companion object {
@@ -49,8 +50,11 @@ open class BaseApplication : Application() {
         sharedPreferences =
             getSharedPreferences("share.xml", MODE_PRIVATE)
 
-        ARouter.openLog() // Print log
-        ARouter.openDebug()
+        MMKV.initialize(this)
+        if (BuildConfig.DEBUG){
+            ARouter.openLog() // Print log
+            ARouter.openDebug()
+        }
         ARouter.init(this) //阿里路由初始化
 
     }
