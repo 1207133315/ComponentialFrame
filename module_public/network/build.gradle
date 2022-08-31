@@ -27,7 +27,6 @@ dependencies {
     api ext.dependencies.retrofitConverterGson
     api ext.dependencies.retrofit
     api ext.dependencies.retrofitAdapterRxjava2
-    api ext.dependencies.rxjava
-    api ext.dependencies.rxandroid
+
 
 }

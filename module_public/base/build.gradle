@@ -1,4 +1,5 @@
 apply from: '../../base_gradle/public_module.gradle'
+def ext = rootProject.ext
 android {
 
     defaultConfig {
@@ -25,6 +26,7 @@ dependencies {
 
     implementation project(path: ':module_public:network')
     implementation project(path: ':module_public:common')
-    implementation 'com.jaeger.statusbarutil:library:1.4.0'
-    api 'com.tencent:mmkv:1.2.13'
+    implementation "com.jaeger.statusbarutil:library:${ext.version.statusbarutil}"
+    api "com.tencent:mmkv:${ext.version.mmkv}"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:${ext.version.viewmodel_ktx}"
 }

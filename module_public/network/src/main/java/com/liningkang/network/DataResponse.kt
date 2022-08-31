@@ -1,7 +1,13 @@
 package com.liningkang.network
 
-class DataResponse<T> {
-     var code=0
-     var msg=""
-     var data:T?=null
+ class DataResponse<T>(
+    var code: Int,
+    var status: Int,
+    var msg: String,
+    var data: T?
+) {
+
+     fun isSuccess(): Boolean{
+         return status==1000
+     }
 }

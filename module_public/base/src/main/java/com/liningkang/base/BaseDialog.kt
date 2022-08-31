@@ -3,6 +3,7 @@ package com.liningkang.base
 import android.app.Dialog
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle.Event.*
 
 class BaseDialog(activity: BaseActivity, attrId: Int) : Dialog(activity, attrId),
     LifecycleEventObserver {
@@ -112,11 +113,29 @@ class BaseDialog(activity: BaseActivity, attrId: Int) : Dialog(activity, attrId)
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
-            Lifecycle.Event.ON_DESTROY -> {
+            ON_DESTROY -> {
                 if (source == activity) {
                     Log.d(TAG, "onActivityDestroyed: [activity]")
                     dismissSafely()
                 }
+            }
+            ON_CREATE -> {
+
+            }
+            ON_START -> {
+
+            }
+            ON_RESUME -> {
+
+            }
+            ON_PAUSE -> {
+
+            }
+            ON_STOP -> {
+
+            }
+            ON_ANY -> {
+
             }
         }
     }

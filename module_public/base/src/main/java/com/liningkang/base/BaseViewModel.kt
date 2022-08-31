@@ -2,21 +2,26 @@ package com.liningkang.base
 
 import androidx.lifecycle.*
 import com.liningkang.network.*
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
-import java.lang.String
+import kotlinx.coroutines.*
+import retrofit2.Call
 import java.lang.reflect.ParameterizedType
 import kotlin.Any
 import kotlin.Int
 
-open class BaseViewModel<R> : ViewModel(), LifecycleEventObserver {
-    val iRequest: R
+open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
 
-    init {
-        iRequest = NetworkManager.create(getRequestType(), getTClass())
+    /**
+     * 在主线程中执行一个协程
+     */
+    protected fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
+        return viewModelScope.launch(Dispatchers.Main) { block() }
+    }
+
+    /**
+     * 在IO线程中执行一个协程
+     */
+    protected fun launchOnIO(block: suspend CoroutineScope.() -> Unit): Job {
+        return viewModelScope.launch(Dispatchers.IO) { block() }
     }
 
     /**
@@ -66,8 +71,11 @@ open class BaseViewModel<R> : ViewModel(), LifecycleEventObserver {
             Lifecycle.Event.ON_DESTROY -> {
                 destroy()
             }
+            Lifecycle.Event.ON_CREATE -> {}
+            Lifecycle.Event.ON_ANY -> {}
         }
     }
+
 
     /**
      * 请求数据，所有网络操作请使用本方法
@@ -75,57 +83,33 @@ open class BaseViewModel<R> : ViewModel(), LifecycleEventObserver {
      * @param dataCall
      * @return
      */
-    fun <T : Any> request(
-        observable: Observable<DataResponse<T>>,
-        dataCall: DataCall<T>,
-    ): Disposable? {
-        return observable.subscribeOn(Schedulers.io()) //将请求调度到子线程上
-            .observeOn(AndroidSchedulers.mainThread()) //观察响应结果，把响应结果调度到主线程中处理
-            .onErrorReturn { t ->
-              null
+    suspend fun <D : Any> request(
+        call: suspend (service: T) -> DataResponse<D>
+    ): ParseResult<D> {
+        return try {
+            val service = NetworkManager.create(getRequestType(), getTClass<T>())
+            val response = call(service)
+            if (response!!.isSuccess()) {
+                ParseResult.Success(response.data)
+            } else {
+                ParseResult.Failure(response.code, response.msg)
             }
-            .subscribe(getConsumer(dataCall)
-            ) { t -> dataCall.onFail(ApiException.handleException(t)) }
-    }
-
-
-    /**
-     * @author: yintao
-     * @date: 2020/4/20 11:56 PM
-     * @method
-     * @param
-     * @return
-     * @description 根据返回值{@link #getResponseType()}灵活改变Consumer或者自己直接重写都可以
-     */
-    protected open fun <T> getConsumer(dataCall: DataCall<T>): Consumer<DataResponse<T>>? {
-        return if (getResponseType() == NetworkConfig.RESPONSE_TYPE_SDK_BD) { //如果整个项目中只有一个百度的接口，那么不建议修改基类Presenter，请重写getConsumer方法就可以。
-            Consumer<DataResponse<T>> { result ->
-                if (result.code === 0) {
-                    dataCall.onSuccess(result.data as T)
-                } else {
-                    dataCall.onFail(ApiException(String.valueOf(result.code), result.msg))
-                }
-            }
-        } else {
-            Consumer<DataResponse<T>> { result ->
-                if (result.code == 0) {
-                    dataCall.onSuccess(result.data as T)
-                } else {
-                    dataCall.onFail(ApiException(String.valueOf(result.code), result.msg))
-                }
-            }
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+            ParseResult.Error(ex, HttpError.UNKNOWN)
         }
     }
+
 
     /**
      * 获取泛型对相应的Class对象
      * @return
      */
-    private fun getTClass(): Class<R>? {
+    fun <T> getTClass(): Class<T>? {
         //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
         val type = this.javaClass.genericSuperclass as ParameterizedType
         //返回表示此类型实际类型参数的 Type 对象的数组()，想要获取第二个泛型的Class，所以索引写1
-        return type.actualTypeArguments[0] as Class<R> //<T>
+        return type.actualTypeArguments[0] as Class<T> //<T>
     }
 
     /**
