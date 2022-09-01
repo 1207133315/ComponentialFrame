@@ -30,14 +30,14 @@ class LoginViewModel : BaseViewModel<LoginApi>() {
                     .show()
                 Log.i(TAG, "requestWeather:${it.city} ")
             }.doFailure { code, msg ->
-                Toast.makeText(BaseApplication.context, "数据获取失败", Toast.LENGTH_SHORT).show()
+                Toast.makeText(BaseApplication.context, "数据获取失败:$msg", Toast.LENGTH_SHORT).show()
             }.doError { ex, error ->
-                Toast.makeText(BaseApplication.context, error.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(BaseApplication.context, error?.message, Toast.LENGTH_SHORT).show()
             }
+            // 回调时切回到主线程
             withContext(Dispatchers.Main){
                 parseResult.procceed()
             }
-
         }
 
     }

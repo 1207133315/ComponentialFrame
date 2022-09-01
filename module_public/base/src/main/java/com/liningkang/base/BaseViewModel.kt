@@ -95,8 +95,7 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
                 ParseResult.Failure(response.code, response.msg)
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
-            ParseResult.Error(ex, HttpError.UNKNOWN)
+            ParseResult.Error(ex, HttpError.handleException(ex))
         }
     }
 
@@ -105,7 +104,7 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
      * 获取泛型对相应的Class对象
      * @return
      */
-    fun <T> getTClass(): Class<T>? {
+     fun <T> getTClass(): Class<T>? {
         //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
         val type = this.javaClass.genericSuperclass as ParameterizedType
         //返回表示此类型实际类型参数的 Type 对象的数组()，想要获取第二个泛型的Class，所以索引写1

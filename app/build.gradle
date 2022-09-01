@@ -40,8 +40,11 @@ dependencies {
     implementation ext.dependencies.appcompat
     implementation ext.dependencies.material
     implementation ext.dependencies.constraintlayout
-    implementation project(path: ':module_public:base')
-    implementation project(path: ':module_public:network')
-    implementation project(path: ':module_public:common')
-    implementation project(path: ':module_bisiness:login')
+    if (ext.isModule == true) {
+        implementation project(path: ':module_public:base')
+        implementation project(path: ':module_public:network')
+        implementation project(path: ':module_public:common')
+        implementation project(path: ':module_bisiness:login')
+    }
+
 }
