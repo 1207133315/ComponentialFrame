@@ -7,24 +7,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.liningkang.base.BaseViewModelActivity
 import com.liningkang.login.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>() {
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        Log.i("activity", "initView: MainActivity")
-        viewModel?.requestWeather()
-        binding?.text?.setOnClickListener {
-            startActivity(Intent(this, MainActivity2::class.java))
+    override fun initView(savedInstanceState: Bundle?) = binding?.run {
+        this.loginData = LoginData()
+        text.setOnClickListener {
+            viewModel?.requestWeather()
+            //startActivity(Intent(this, MainActivity2::class.java))
         }
-
-        recycler.layoutManager=LinearLayoutManager(this)
-        val myAdapter = MyAdapter(this)
-        recycler.adapter=myAdapter
-
+        observeLiveData()
     }
+
+    private fun observeLiveData() = viewModel?.run {
+        dataLiveData.observe(this@MainActivity) {
+            binding?.loginData = it
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -45,4 +49,7 @@ class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>(
         super.onDestroy()
         Log.i("activity", "onDestroy: MainActivity")
     }
+
+
+
 }

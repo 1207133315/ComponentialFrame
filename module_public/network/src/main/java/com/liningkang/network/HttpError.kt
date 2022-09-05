@@ -34,9 +34,13 @@ enum class HttpError(val code: Int, val message: String) {
                     //解析错误
                     PARSE_ERROR
                 }
-                is ConnectException, is UnknownHostException, is SocketTimeoutException -> {
+                is ConnectException, is UnknownHostException -> {
                     //网络错误
                     CONNECT_ERROR
+                }
+                is SocketTimeoutException -> {
+                    // 连接超时
+                    CONNECT_TIMEOUT
                 }
                 else -> {
                     //未知错误

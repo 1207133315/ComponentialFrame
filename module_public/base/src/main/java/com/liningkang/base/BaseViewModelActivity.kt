@@ -13,11 +13,12 @@ import com.alibaba.android.arouter.launcher.ARouter
 import java.lang.reflect.ParameterizedType
 
 /**
-  * @description ViewModel+DataBinding的Activity基类
-  */
-abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBinding> : BaseActivity() {
+ * @description ViewModel+DataBinding的Activity基类
+ */
+abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBinding> :
+    BaseActivity() {
     var mLoadDialog // 加载框
-    : Dialog? = null
+            : Dialog? = null
 
 
     var viewModel: VM? = null
@@ -33,17 +34,18 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBindin
 //        LogUtils.e("getTaskId = $taskId")
 
         viewModel = ViewModelProvider(this).get(getTClass()!!)
-
+        //        binding.setLifecycleOwner(this);
+        if (viewModel != null) {
+            lifecycle.addObserver(viewModel!!)
+        }
         binding = DataBindingUtil.setContentView(this, getLayoutId())
         //所有布局中dababinding对象变量名称都是vm
         binding?.executePendingBindings() //立即更新UI
-        //        binding.setLifecycleOwner(this);
-        lifecycle.addObserver(viewModel!!)
+
         initView(savedInstanceState)
 
+
     }
-
-
 
 
     /**
@@ -56,7 +58,6 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBindin
         //返回表示此类型实际类型参数的 Type 对象的数组()，想要获取第二个泛型的Class，所以索引写1
         return type.actualTypeArguments[0] as Class<VM?>? //<T>
     }
-
 
 
     /**

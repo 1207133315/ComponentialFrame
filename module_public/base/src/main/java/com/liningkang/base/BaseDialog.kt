@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.Lifecycle.Event.*
 
-class BaseDialog(activity: BaseActivity, attrId: Int) : Dialog(activity, attrId),
+open class BaseDialog(activity: BaseActivity, attrId: Int) : Dialog(activity, attrId),
     LifecycleEventObserver {
     constructor(activity: BaseActivity) : this(activity, R.style.base_dialog)
 

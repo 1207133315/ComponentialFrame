@@ -2,12 +2,12 @@ package com.liningkang.login
 
 import com.google.gson.annotations.SerializedName
 
-class LoginData(
-    var city: String,
-    var forecast: List<Forecast>,
-    var ganmao: String,
-    var wendu: String,
-    var yesterday: Yesterday
+data class LoginData(
+    var city: String="点击获取城市",
+    var forecast: List<Forecast>?=null,
+    var ganmao: String="",
+    var wendu: String="",
+    var yesterday: Yesterday?=null
 ) {
 
     data class Forecast(

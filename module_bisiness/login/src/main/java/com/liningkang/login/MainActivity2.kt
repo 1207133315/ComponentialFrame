@@ -33,7 +33,7 @@ class MainActivity2 : BaseViewModelActivity<LoginViewModel,ActivityMain2Binding>
 
     override fun initView(savedInstanceState: Bundle?) {
         text.setOnClickListener {
-            startActivity(Intent(this,MainActivity3::class.java))
+            startActivity(Intent(this,MainActivity::class.java))
         }
     }
 }

@@ -48,5 +48,5 @@ import com.liningkang.common.AppManager
     /**
      * 初始化视图
      */
-    protected abstract fun initView(savedInstanceState: Bundle?)
+    protected abstract fun initView(savedInstanceState: Bundle?): Unit?
 }

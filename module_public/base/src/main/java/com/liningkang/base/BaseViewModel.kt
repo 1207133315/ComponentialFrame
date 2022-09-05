@@ -1,14 +1,20 @@
 package com.liningkang.base
 
+import android.app.Activity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import com.alibaba.android.arouter.launcher.ARouter
+import com.liningkang.common.RouteConfig
+import com.liningkang.common.interfaces.IUiService
 import com.liningkang.network.*
 import kotlinx.coroutines.*
-import retrofit2.Call
 import java.lang.reflect.ParameterizedType
 import kotlin.Any
 import kotlin.Int
 
 open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
+
+    var customDialog: BaseDialog? = null
 
     /**
      * 在主线程中执行一个协程
@@ -35,43 +41,52 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
     }
 
 
-    protected open fun start() {
+    protected open fun start(source: LifecycleOwner) {
     }
 
 
-    protected open fun resume() {
+    protected open fun resume(source: LifecycleOwner) {
     }
 
 
-    protected open fun pause() {
+    protected open fun pause(source: LifecycleOwner) {
     }
 
 
-    protected open fun stop() {
+    protected open fun stop(source: LifecycleOwner) {
     }
 
 
-    protected open fun destroy() {
+    protected open fun destroy(source: LifecycleOwner) {
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_START -> {
-                start()
+                start(source)
             }
             Lifecycle.Event.ON_RESUME -> {
-                resume()
+                resume(source)
             }
             Lifecycle.Event.ON_PAUSE -> {
-                pause()
+                pause(source)
             }
             Lifecycle.Event.ON_STOP -> {
-                stop()
+                stop(source)
             }
             Lifecycle.Event.ON_DESTROY -> {
-                destroy()
+                destroy(source)
             }
-            Lifecycle.Event.ON_CREATE -> {}
+            Lifecycle.Event.ON_CREATE -> {
+                val iUiService = ARouter.getInstance().build(RouteConfig.ROUTER_SERVICE_UI)
+                    .navigation() as IUiService?
+                if (source is Fragment) {
+                    customDialog =
+                        iUiService?.createCustomDialog(source.requireActivity()) as BaseDialog?
+                } else if (source is Activity) {
+                    customDialog = iUiService?.createCustomDialog(source) as BaseDialog?
+                }
+            }
             Lifecycle.Event.ON_ANY -> {}
         }
     }
@@ -87,14 +102,23 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
         call: suspend (service: T) -> DataResponse<D>
     ): ParseResult<D> {
         return try {
+            withContext(Dispatchers.Main) {
+                customDialog?.show()
+            }
             val service = NetworkManager.create(getRequestType(), getTClass<T>())
             val response = call(service)
+            withContext(Dispatchers.Main) {
+                customDialog?.dismiss()
+            }
             if (response!!.isSuccess()) {
                 ParseResult.Success(response.data)
             } else {
                 ParseResult.Failure(response.code, response.msg)
             }
         } catch (ex: Throwable) {
+            withContext(Dispatchers.Main) {
+                customDialog?.dismiss()
+            }
             ParseResult.Error(ex, HttpError.handleException(ex))
         }
     }
@@ -104,7 +128,7 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
      * 获取泛型对相应的Class对象
      * @return
      */
-     fun <T> getTClass(): Class<T>? {
+    fun <T> getTClass(): Class<T>? {
         //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
         val type = this.javaClass.genericSuperclass as ParameterizedType
         //返回表示此类型实际类型参数的 Type 对象的数组()，想要获取第二个泛型的Class，所以索引写1
