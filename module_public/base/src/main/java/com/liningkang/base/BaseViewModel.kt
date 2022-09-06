@@ -38,9 +38,12 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
     }
 
     /**
-     * 在IO线程中执行一个协程
+     * 使用Flow流执行代码块
      */
-    protected fun <T> launchOnFlow(context: CoroutineContext,block: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+    protected fun <T> launchOnFlow(
+        context: CoroutineContext,
+        block: suspend FlowCollector<T>.() -> Unit
+    ): Flow<T> {
         return flow { block() }.flowOn(context)
     }
 
@@ -124,7 +127,7 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
             withContext(Dispatchers.Main) {
                 customDialog?.dismiss()
             }
-            if (response!!.isSuccess()) {
+            if (response?.isSuccess() == true) {
                 ParseResult.Success(response.data)
             } else {
                 ParseResult.Failure(response.code, response.msg)
@@ -136,8 +139,6 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
             ParseResult.Error(ex, HttpError.handleException(ex))
         }
     }
-
-
 
 
     /**

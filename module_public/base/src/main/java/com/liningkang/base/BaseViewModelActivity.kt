@@ -53,7 +53,11 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBindin
 
     }
 
-    // 收集流
+    /**
+      * @description 收集流,目的时简化flow调用collect收集时的代码
+      * @param action-收集流时要执行的代码块
+      * @return job-当前协程(lifecycleScope)
+      */
     fun <T> Flow<T>.collectIn(
         action: (T) -> Unit
     ): Job = lifecycleScope.launch {

@@ -22,18 +22,18 @@ class LoginViewModel : BaseViewModel<LoginApi>() {
 
     fun requestWeatherOfFlow(city: String) = launchOnFlow(Dispatchers.Default) {
         LogUtils.d("LoginViewModel", "requestWeatherOfFlow: [${Thread.currentThread().name}]")
-        val parseResult = request {
+        request {
+            emit(LoginData(city = "加载中..."))
             delay(3000)
             it.loginByVerificationCode(city)
         }.doSuccess {
-            Log.i(Companion.TAG, "requestWeather:${it?.city} ")
+            Log.i(TAG, "requestWeather:${it?.city} ")
             emit(it!!)
         }.doFailure { code, msg ->
             emit(LoginData(city = msg ?: "请求失败-$code"))
         }.doError { ex, error ->
             emit(LoginData(city = error.message))
-        }
-        parseResult.procceed()
+        }.procceed()
     }
 
 
