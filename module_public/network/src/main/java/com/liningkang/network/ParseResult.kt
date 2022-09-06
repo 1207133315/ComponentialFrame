@@ -11,11 +11,11 @@ sealed class ParseResult<out T : Any> {
         ParseResult<Nothing>()
 
     /* 请求失败，抛出异常 */
-    data class Error(val ex: Throwable, val error: HttpError?) : ParseResult<Nothing>()
+    data class Error(val ex: Throwable, val error: HttpError) : ParseResult<Nothing>()
 
     private var successBlock: (suspend (data: T?) -> Unit)? = null
     private var failureBlock: (suspend (code: Int, msg: String?) -> Unit)? = null
-    private var errorBlock: (suspend (ex: Throwable, error: HttpError?) -> Unit)? = null
+    private var errorBlock: (suspend (ex: Throwable, error: HttpError) -> Unit)? = null
     private var cancelBlock: (suspend () -> Unit)? = null
 
     /**
@@ -37,7 +37,7 @@ sealed class ParseResult<out T : Any> {
     /**
      * 设置网络请求异常处理
      */
-    fun doError(errorBlock: (suspend (ex: Throwable, error: HttpError?) -> Unit)?): ParseResult<T> {
+    fun doError(errorBlock: (suspend (ex: Throwable, error: HttpError) -> Unit)): ParseResult<T> {
         this.errorBlock = errorBlock
         return this
     }

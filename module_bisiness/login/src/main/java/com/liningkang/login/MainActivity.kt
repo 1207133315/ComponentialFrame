@@ -21,23 +21,17 @@ class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>(
 
     override fun initView(savedInstanceState: Bundle?) = binding?.run {
         this.loginData = LoginData()
-        viewModel?.requestWeatherOfFlow("北京")?.collectIn {
-            Toast.makeText(BaseApplication.context, "加载完成", Toast.LENGTH_SHORT).show()
-            loginData = it
-        }
         text.setOnClickListener {
-
+            viewModel?.requestWeatherOfFlow("北京")?.collectIn (this@MainActivity::onRequestWeather)
         }
         jump.setOnClickListener {
             startActivity(Intent(this@MainActivity, MainActivity3::class.java))
         }
-        //  observeLiveData()
     }
 
-    private fun observeLiveData() = viewModel?.run {
-        dataLiveData.observe(this@MainActivity) {
-            binding?.loginData = it
-        }
+    private fun onRequestWeather(data: LoginData) {
+        Toast.makeText(BaseApplication.context, "加载完成", Toast.LENGTH_SHORT).show()
+        binding?.loginData = data
     }
 
 

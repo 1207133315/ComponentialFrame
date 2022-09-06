@@ -1,16 +1,23 @@
 package com.liningkang.base
 
 import android.app.Activity
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
+import com.liningkang.base.BaseApplication.Companion.context
 import com.liningkang.common.RouteConfig
 import com.liningkang.common.interfaces.IUiService
 import com.liningkang.network.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.lang.reflect.ParameterizedType
 import kotlin.Any
 import kotlin.Int
+import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
 
@@ -28,6 +35,13 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
      */
     protected fun launchOnIO(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch(Dispatchers.IO) { block() }
+    }
+
+    /**
+     * 在IO线程中执行一个协程
+     */
+    protected fun <T> launchOnFlow(context: CoroutineContext,block: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+        return flow { block() }.flowOn(context)
     }
 
     /**
@@ -122,6 +136,8 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
             ParseResult.Error(ex, HttpError.handleException(ex))
         }
     }
+
+
 
 
     /**
