@@ -7,9 +7,14 @@ import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -47,6 +52,12 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBindin
 
     }
 
+    // 收集流
+    fun <T> Flow<T>.collectIn(
+        action: (T) -> Unit
+    ): Job = lifecycleScope.launch {
+        collect(action)
+    }
 
     /**
      * 获取泛型对相应的Class对象

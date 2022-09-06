@@ -3,10 +3,15 @@ package com.liningkang.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.liningkang.base.BaseApplication
 import com.liningkang.base.BaseViewModelActivity
 import com.liningkang.login.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>() {
@@ -16,11 +21,17 @@ class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>(
 
     override fun initView(savedInstanceState: Bundle?) = binding?.run {
         this.loginData = LoginData()
-        text.setOnClickListener {
-            viewModel?.requestWeather()
-            //startActivity(Intent(this, MainActivity2::class.java))
+        viewModel?.requestWeatherOfFlow("北京")?.collectIn {
+            Toast.makeText(BaseApplication.context, "加载完成", Toast.LENGTH_SHORT).show()
+            loginData = it
         }
-        observeLiveData()
+        text.setOnClickListener {
+
+        }
+        jump.setOnClickListener {
+            startActivity(Intent(this@MainActivity, MainActivity3::class.java))
+        }
+        //  observeLiveData()
     }
 
     private fun observeLiveData() = viewModel?.run {
@@ -49,7 +60,6 @@ class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>(
         super.onDestroy()
         Log.i("activity", "onDestroy: MainActivity")
     }
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.liningkang.base
 
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.alibaba.android.arouter.launcher.ARouter
@@ -29,7 +30,7 @@ import com.liningkang.common.AppManager
 
     override fun onDestroy() {
         super.onDestroy()
-        AppManager.finishActivity(this)
+        AppManager.removeActivity(this)
     }
 
     /**

@@ -3,13 +3,6 @@
     package="com.liningkang.base">
 
     <application>
-        <activity
-            android:name=".BaseCommonActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BaseActivity"
-            android:exported="false"
-            />
     </application>
 
 </manifest>

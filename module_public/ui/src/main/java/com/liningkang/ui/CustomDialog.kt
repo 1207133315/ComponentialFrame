@@ -20,7 +20,7 @@ class CustomDialog(activity: BaseActivity) :
         val attributes = window!!.attributes
         attributes.alpha = 0.8f
         window!!.attributes = attributes
-        setCancelable(false)
+        setCancelable(true)
     }
 
 

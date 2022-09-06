@@ -130,6 +130,13 @@ object  AppManager {
         }
     }
 
+    fun removeActivity(activity: Activity?){
+        if (activity != null) {
+            if (mActivityStack != null && mActivityStack!!.contains(activity)) { // 兼容未使用AppManager管理的实例
+                mActivityStack!!.remove(activity)
+            }
+        }
+    }
     /**
      * 退出应用程序
      */
