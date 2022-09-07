@@ -40,10 +40,10 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
     /**
      * 使用Flow流执行代码块
      */
-    protected fun <T> launchOnFlow(
+    protected fun <D> launchOnFlow(
         context: CoroutineContext,
-        block: suspend FlowCollector<T>.() -> Unit
-    ): Flow<T> {
+        block: suspend FlowCollector<D>.() -> Unit
+    ): Flow<D> {
         return flow { block() }.flowOn(context)
     }
 

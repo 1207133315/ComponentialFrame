@@ -59,7 +59,7 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<*>, VDB : ViewDataBindin
       * @return job-当前协程(lifecycleScope)
       */
     fun <T> Flow<T>.collectIn(
-        action: (T) -> Unit
+        action: suspend (T) -> Unit
     ): Job = lifecycleScope.launch {
         collect(action)
     }

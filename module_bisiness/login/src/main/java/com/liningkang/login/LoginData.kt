@@ -3,10 +3,15 @@ package com.liningkang.login
 import com.google.gson.annotations.SerializedName
 
 data class LoginData(
-    var city: String="点击获取城市",
+    @SerializedName("city")
+    var city: String="",
+    @SerializedName("forecast")
     var forecast: List<Forecast>?=null,
+    @SerializedName("ganmao")
     var ganmao: String="",
+    @SerializedName("wendu")
     var wendu: String="",
+    @SerializedName("yesterday")
     var yesterday: Yesterday?=null
 ) {
 

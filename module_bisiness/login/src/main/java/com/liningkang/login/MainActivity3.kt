@@ -3,10 +3,13 @@ package com.liningkang.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.liningkang.base.BaseViewModelActivity
+import com.liningkang.common.RouteConfig
 import com.liningkang.login.databinding.ActivityMain3Binding
 import kotlinx.android.synthetic.main.activity_main.*
 
+@Route(path = RouteConfig.ROUTER_ACTIVITY_MAIN3)
 class MainActivity3 : BaseViewModelActivity<LoginViewModel, ActivityMain3Binding>() {
 
     companion object {

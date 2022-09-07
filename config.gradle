@@ -1,10 +1,12 @@
 ext {
 
     // 如果只运行模块，请改为false；true则所有模块都参与打包
-    isModule = false
+    isModule = true
+    // 是否打印日志 release版本要改为false
+    isLogable=true
+
     module_appId = [
             "login": "com.liningkang.login",
-            "ndk_demo":"com.liningkang.ndk_demo"
     ]
     android = [
             applicationId    : "com.liningkang.componentialFrame",

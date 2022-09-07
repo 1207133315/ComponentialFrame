@@ -27,6 +27,6 @@ dependencies {
     implementation project(path: ':module_public:network')
     implementation project(path: ':module_public:common')
     implementation "com.jaeger.statusbarutil:library:${ext.version.statusbarutil}"
-    api "com.tencent:mmkv:${ext.version.mmkv}"
+    implementation "com.tencent:mmkv:${ext.version.mmkv}"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:${ext.version.viewmodel_ktx}"
 }

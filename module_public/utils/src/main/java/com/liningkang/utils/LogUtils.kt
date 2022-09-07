@@ -1,13 +1,16 @@
 package com.liningkang.utils
 
-import android.os.Environment
-import android.text.TextUtils
+import android.content.Context
 import android.util.Log
-import com.liningkang.base.BaseApplication
+import java.io.File
+import java.io.IOException
 
 object LogUtils {
-    var isDebug = BuildConfig.DEBUG
+    var isDebug = BuildConfig.DEBUG || BuildConfig.IS_LOGABLE
+
     var isShowLineNumber = false
+
+
 
     /**
      * 获取相关数据:类名,方法名,行号等.用来定位行<br>

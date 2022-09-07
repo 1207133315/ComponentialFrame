@@ -4,6 +4,14 @@ plugins {
 }
 def ext = rootProject.ext
 android {
+    signingConfigs {
+        release {
+            storeFile file('..\\keystore\\keystore.jks')
+            storePassword 'liningkang'
+            keyAlias 'key1'
+            keyPassword 'liningkang'
+        }
+    }
     compileSdk ext.android.compileSdkVersion
 
     defaultConfig {
@@ -18,8 +26,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true // 混淆
+            zipAlignEnabled true // Zipalign优化
+            shrinkResources true  // 移除无用的resource文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -45,6 +56,7 @@ dependencies {
         implementation project(path: ':module_public:network')
         implementation project(path: ':module_public:common')
         implementation project(path: ':module_public:ui')
+        implementation project(path: ':module_public:utils')
         implementation project(path: ':module_bisiness:login')
     }
 
