@@ -50,22 +50,22 @@
 
 
 
-# 保留support下的所有类及其内部类
--keep class android.support.** {*;}
--keep interface android.support.** {*;}
--keep public class * extends android.support.v4.**
--keep public class * extends android.support.v7.**
--keep public class * extends android.support.annotation.**
--dontwarn android.support.**
-
-# 保留androidx下的所有类及其内部类
--keep class androidx.** {*;}
--keep public class * extends androidx.**
--keep interface androidx.** {*;}
--keep class com.google.android.material.** {*;}
--dontwarn androidx.**
--dontwarn com.google.android.material.**
--dontnote com.google.android.material.**
+## 保留support下的所有类及其内部类
+#-keep class android.support.** {*;}
+#-keep interface android.support.** {*;}
+#-keep public class * extends android.support.v4.**
+#-keep public class * extends android.support.v7.**
+#-keep public class * extends android.support.annotation.**
+#-dontwarn android.support.**
+#
+## 保留androidx下的所有类及其内部类
+#-keep class androidx.** {*;}
+#-keep public class * extends androidx.**
+#-keep interface androidx.** {*;}
+#-keep class com.google.android.material.** {*;}
+#-dontwarn androidx.**
+#-dontwarn com.google.android.material.**
+#-dontnote com.google.android.material.**
 
 # 保持Activity中与View相关方法不被混淆
 -keepclassmembers class * extends android.app.Activity{
