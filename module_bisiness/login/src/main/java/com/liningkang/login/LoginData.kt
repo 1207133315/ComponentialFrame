@@ -21,7 +21,8 @@ data class LoginData(
         var fengxiang: String,
         var high: String,
         var low: String,
-        var type: String
+        var type: String,
+        var isShow:Boolean=false
     )
 
     data class Yesterday(

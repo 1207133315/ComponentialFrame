@@ -11,6 +11,7 @@ import com.liningkang.base.BaseApplication
 import com.liningkang.base.BaseViewModelActivity
 import com.liningkang.common.RouteConfig
 import com.liningkang.common.interfaces.IUiService
+import com.liningkang.login.adapter.ForecastAdapter
 import com.liningkang.login.databinding.ActivityMainBinding
 import com.liningkang.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +24,7 @@ import java.util.*
 class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>() {
     val dialog = (ARouter.getInstance().build(RouteConfig.ROUTER_SERVICE_UI)
         .navigation() as IUiService?)
+
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
@@ -30,15 +32,16 @@ class MainActivity : BaseViewModelActivity<LoginViewModel, ActivityMainBinding>(
     override fun initView(savedInstanceState: Bundle?) = binding?.run {
         loginData = LoginData(city = "点击获取城市")
         text.setOnClickListener {
-            viewModel?.requestWeatherOfFlow("北京")?.collectIn (this@MainActivity::onRequestWeather)
+            viewModel?.requestWeatherOfFlow("北京")?.collectIn(this@MainActivity::onRequestWeather)
         }
         jump.setOnClickListener {
             ARouter.getInstance().build(RouteConfig.ROUTER_ACTIVITY_MAIN3).navigation()
         }
+
     }
 
     private fun onRequestWeather(data: LoginData) {
-        LogUtils.d("MainActivity","onRequestWeather: [${data?.city}]")
+        LogUtils.d("MainActivity", "onRequestWeather: [${data?.city}]")
         binding?.loginData = data
     }
 

@@ -157,7 +157,7 @@ open class BaseViewModel<T> : ViewModel(), LifecycleEventObserver {
      * 应对大项目多数据结构
      * @TODO 可以根据需要在子类中重写
      */
-    private fun getResponseType(): Int {
+    protected fun getResponseType(): Int {
         return NetworkConfig.RESPONSE_TYPE_DEFAULT
     }
 

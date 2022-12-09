@@ -1,0 +1,39 @@
+apply from: '../../base_gradle/bisiness_module.gradle'
+apply plugin: 'org.jetbrains.kotlin.android'
+def ext = rootProject.ext
+android {
+
+    defaultConfig {
+
+        versionCode ext.android.versionCode
+        versionName ext.android.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            if (!isModule) {
+                manifest.srcFile 'src/test/AndroidManifest.xml'
+            }
+
+        }
+
+    }
+
+}
+
+dependencies {
+
+
+    implementation project(path: ':module_public:base')
+    implementation project(path: ':module_public:network')
+    implementation project(path: ':module_public:ui')
+    implementation project(path: ':module_public:common')
+    implementation project(path: ':module_public:utils')
+
+}
